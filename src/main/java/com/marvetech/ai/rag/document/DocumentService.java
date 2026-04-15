@@ -11,12 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class DocumentService {
     private final DocumentRepository documentRepository;
     private final TextExtractionService textExtractionService;
+    private final OriginalDocumentStorage originalDocumentStorage;
     private final IngestionDispatcher ingestionDispatcher;
     private final CurrentUser currentUser;
 
-    public DocumentService(DocumentRepository documentRepository, TextExtractionService textExtractionService, IngestionDispatcher ingestionDispatcher, CurrentUser currentUser) {
+    public DocumentService(DocumentRepository documentRepository, TextExtractionService textExtractionService, OriginalDocumentStorage originalDocumentStorage, IngestionDispatcher ingestionDispatcher, CurrentUser currentUser) {
         this.documentRepository = documentRepository;
         this.textExtractionService = textExtractionService;
+        this.originalDocumentStorage = originalDocumentStorage;
         this.ingestionDispatcher = ingestionDispatcher;
         this.currentUser = currentUser;
     }
@@ -33,6 +35,10 @@ public class DocumentService {
         document.setContentType(file.getContentType());
         document.setRawText(extractedText);
         var saved = documentRepository.save(document);
+        var storedDocument = originalDocumentStorage.store(saved, file);
+        saved.setObjectKey(storedDocument.objectKey());
+        saved.setSizeBytes(storedDocument.sizeBytes());
+        saved = documentRepository.save(saved);
         ingestionDispatcher.dispatch(saved.getId(), saved.getTenantId());
         return DocumentResponse.from(saved);
     }

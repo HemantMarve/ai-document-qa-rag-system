@@ -7,7 +7,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import java.time.Instant;
 import java.util.UUID;
@@ -24,10 +23,12 @@ public class DocumentEntity {
     private String contentType;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false) private DocumentStatus status = DocumentStatus.UPLOADED;
-    @Lob @Column(nullable = false) private String rawText;
+    @Column(nullable = false, columnDefinition = "text") private String rawText;
     @Column(nullable = false) private Instant createdAt = Instant.now();
     private Instant processedAt;
     @Column(length = 2048) private String errorMessage;
+    @Column(length = 1024) private String objectKey;
+    private Long sizeBytes;
 
     public UUID getId() { return id; }
     public String getTenantId() { return tenantId; }
@@ -47,4 +48,8 @@ public class DocumentEntity {
     public void setProcessedAt(Instant processedAt) { this.processedAt = processedAt; }
     public String getErrorMessage() { return errorMessage; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
+    public String getObjectKey() { return objectKey; }
+    public void setObjectKey(String objectKey) { this.objectKey = objectKey; }
+    public Long getSizeBytes() { return sizeBytes; }
+    public void setSizeBytes(Long sizeBytes) { this.sizeBytes = sizeBytes; }
 }

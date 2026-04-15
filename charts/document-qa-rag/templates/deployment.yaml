@@ -14,10 +14,15 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "document-qa-rag.name" . }}
     spec:
+      serviceAccountName: {{ include "document-qa-rag.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: api
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
           envFrom:

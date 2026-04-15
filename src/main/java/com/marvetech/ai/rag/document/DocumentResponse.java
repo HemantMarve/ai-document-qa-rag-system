@@ -3,8 +3,8 @@ package com.marvetech.ai.rag.document;
 import java.time.Instant;
 import java.util.UUID;
 
-public record DocumentResponse(UUID id, String filename, String contentType, DocumentStatus status, Instant createdAt, Instant processedAt, String errorMessage) {
+public record DocumentResponse(UUID id, String filename, String contentType, DocumentStatus status, Instant createdAt, Instant processedAt, String errorMessage, String objectKey, Long sizeBytes) {
     static DocumentResponse from(DocumentEntity document) {
-        return new DocumentResponse(document.getId(), document.getFilename(), document.getContentType(), document.getStatus(), document.getCreatedAt(), document.getProcessedAt(), document.getErrorMessage());
+        return new DocumentResponse(document.getId(), document.getFilename(), document.getContentType(), document.getStatus(), document.getCreatedAt(), document.getProcessedAt(), document.getErrorMessage(), document.getObjectKey(), document.getSizeBytes());
     }
 }

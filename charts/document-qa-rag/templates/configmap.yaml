@@ -3,13 +3,26 @@ kind: ConfigMap
 metadata:
   name: {{ include "document-qa-rag.fullname" . }}-config
 data:
-  SPRING_PROFILES_ACTIVE: postgres
+  SPRING_PROFILES_ACTIVE: postgres,prod
+  APP_AUTH_MODE: {{ .Values.app.authMode | quote }}
+  APP_AUTH_TENANT_CLAIM: {{ .Values.app.authTenantClaim | quote }}
+  APP_AUTH_ROLES_CLAIM: {{ .Values.app.authRolesClaim | quote }}
   APP_JWT_ISSUER: {{ .Values.app.jwtIssuer | quote }}
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: {{ .Values.app.oidcIssuerUri | quote }}
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: {{ .Values.app.oidcJwkSetUri | quote }}
   SPRING_DATASOURCE_URL: {{ .Values.app.datasourceUrl | quote }}
   SPRING_DATASOURCE_USERNAME: {{ .Values.app.datasourceUsername | quote }}
+  APP_STORAGE_PROVIDER: {{ .Values.app.storageProvider | quote }}
+  APP_STORAGE_S3_BUCKET: {{ .Values.app.storageS3Bucket | quote }}
+  APP_STORAGE_S3_REGION: {{ .Values.app.storageS3Region | quote }}
+  APP_STORAGE_S3_ENDPOINT: {{ .Values.app.storageS3Endpoint | quote }}
+  APP_STORAGE_S3_PATH_STYLE_ACCESS: {{ .Values.app.storageS3PathStyleAccess | quote }}
   APP_INGESTION_MODE: {{ .Values.app.ingestionMode | quote }}
   SPRING_KAFKA_BOOTSTRAP_SERVERS: {{ .Values.app.kafkaBootstrapServers | quote }}
   APP_VECTOR_STORE: {{ .Values.app.vectorStore | quote }}
   APP_EMBEDDING_PROVIDER: {{ .Values.app.embeddingProvider | quote }}
+  APP_GENERATION_PROVIDER: {{ .Values.app.generationProvider | quote }}
   OPENAI_BASE_URL: {{ .Values.app.openAiBaseUrl | quote }}
   OPENAI_EMBEDDING_MODEL: {{ .Values.app.openAiEmbeddingModel | quote }}
+  OPENAI_CHAT_MODEL: {{ .Values.app.openAiChatModel | quote }}
+  OPENAI_CHAT_MAX_TOKENS: {{ .Values.app.openAiChatMaxTokens | quote }}

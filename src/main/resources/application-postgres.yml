@@ -3,6 +3,7 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ragdb}
     username: ${SPRING_DATASOURCE_USERNAME:rag}
     password: ${SPRING_DATASOURCE_PASSWORD:rag}
-
+  flyway:
+    locations: classpath:db/migration,classpath:db/migration/postgres
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
