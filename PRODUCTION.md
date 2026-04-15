@@ -54,12 +54,34 @@ APP_AUTH_ROLES_CLAIM=roles
 
 Tokens must include the configured tenant claim, otherwise tenant-scoped APIs reject the request.
 
+## Original Document Storage
+
+Local mode keeps extracted text in the database and records file size metadata.
+
+Production can store original uploads in any S3-compatible object store:
+
+```bash
+APP_STORAGE_PROVIDER=s3
+APP_STORAGE_S3_BUCKET=document-qa-rag-prod
+APP_STORAGE_S3_REGION=us-east-1
+APP_STORAGE_S3_ACCESS_KEY=...
+APP_STORAGE_S3_SECRET_KEY=...
+```
+
+For MinIO or other S3-compatible endpoints:
+
+```bash
+APP_STORAGE_S3_ENDPOINT=https://minio.example.com
+APP_STORAGE_S3_PATH_STYLE_ACCESS=true
+```
+
+The database stores the S3 object key and file size alongside document metadata.
+
 ## Next Ordered Items
 
 After this baseline, the next production-hardening steps are:
 
-1. Add S3-compatible object storage for original documents.
-2. Add LLM answer generation over retrieved context.
-3. Harden Helm with service account, security context, HPA, PDB, and network policies.
-4. Add Docker image build/publish workflow.
-5. Add Terraform or cloud-specific infrastructure automation.
+1. Add LLM answer generation over retrieved context.
+2. Harden Helm with service account, security context, HPA, PDB, and network policies.
+3. Add Docker image build/publish workflow.
+4. Add Terraform or cloud-specific infrastructure automation.

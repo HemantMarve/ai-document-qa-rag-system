@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 public class AppProperties {
     private Auth auth = new Auth();
     private Jwt jwt = new Jwt();
+    private Storage storage = new Storage();
     private Ingestion ingestion = new Ingestion();
     private VectorStore vectorStore = new VectorStore();
     private Embeddings embeddings = new Embeddings();
@@ -22,6 +23,8 @@ public class AppProperties {
     public void setAuth(Auth auth) { this.auth = auth; }
     public Jwt getJwt() { return jwt; }
     public void setJwt(Jwt jwt) { this.jwt = jwt; }
+    public Storage getStorage() { return storage; }
+    public void setStorage(Storage storage) { this.storage = storage; }
     public Ingestion getIngestion() { return ingestion; }
     public void setIngestion(Ingestion ingestion) { this.ingestion = ingestion; }
     public VectorStore getVectorStore() { return vectorStore; }
@@ -56,6 +59,37 @@ public class AppProperties {
         public void setSecret(String secret) { this.secret = secret; }
         public long getTtlMinutes() { return ttlMinutes; }
         public void setTtlMinutes(long ttlMinutes) { this.ttlMinutes = ttlMinutes; }
+    }
+
+    public static class Storage {
+        @NotBlank private String provider = "database";
+        private S3 s3 = new S3();
+        public String getProvider() { return provider; }
+        public void setProvider(String provider) { this.provider = provider; }
+        public S3 getS3() { return s3; }
+        public void setS3(S3 s3) { this.s3 = s3; }
+        public boolean s3Enabled() { return "s3".equalsIgnoreCase(provider); }
+    }
+
+    public static class S3 {
+        private String bucket = "";
+        private String region = "us-east-1";
+        private String endpoint = "";
+        private String accessKey = "";
+        private String secretKey = "";
+        private boolean pathStyleAccess;
+        public String getBucket() { return bucket; }
+        public void setBucket(String bucket) { this.bucket = bucket; }
+        public String getRegion() { return region; }
+        public void setRegion(String region) { this.region = region; }
+        public String getEndpoint() { return endpoint; }
+        public void setEndpoint(String endpoint) { this.endpoint = endpoint; }
+        public String getAccessKey() { return accessKey; }
+        public void setAccessKey(String accessKey) { this.accessKey = accessKey; }
+        public String getSecretKey() { return secretKey; }
+        public void setSecretKey(String secretKey) { this.secretKey = secretKey; }
+        public boolean isPathStyleAccess() { return pathStyleAccess; }
+        public void setPathStyleAccess(boolean pathStyleAccess) { this.pathStyleAccess = pathStyleAccess; }
     }
 
     public static class Ingestion {

@@ -27,6 +27,8 @@ public class DocumentEntity {
     @Column(nullable = false) private Instant createdAt = Instant.now();
     private Instant processedAt;
     @Column(length = 2048) private String errorMessage;
+    @Column(length = 1024) private String objectKey;
+    private Long sizeBytes;
 
     public UUID getId() { return id; }
     public String getTenantId() { return tenantId; }
@@ -46,4 +48,8 @@ public class DocumentEntity {
     public void setProcessedAt(Instant processedAt) { this.processedAt = processedAt; }
     public String getErrorMessage() { return errorMessage; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
+    public String getObjectKey() { return objectKey; }
+    public void setObjectKey(String objectKey) { this.objectKey = objectKey; }
+    public Long getSizeBytes() { return sizeBytes; }
+    public void setSizeBytes(Long sizeBytes) { this.sizeBytes = sizeBytes; }
 }

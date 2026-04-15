@@ -56,6 +56,15 @@ app:
     - username: user
       password: user123
       roles: [USER]
+  storage:
+    provider: ${APP_STORAGE_PROVIDER:database}
+    s3:
+      bucket: ${APP_STORAGE_S3_BUCKET:}
+      region: ${APP_STORAGE_S3_REGION:us-east-1}
+      endpoint: ${APP_STORAGE_S3_ENDPOINT:}
+      access-key: ${APP_STORAGE_S3_ACCESS_KEY:}
+      secret-key: ${APP_STORAGE_S3_SECRET_KEY:}
+      path-style-access: ${APP_STORAGE_S3_PATH_STYLE_ACCESS:false}
   ingestion:
     mode: ${APP_INGESTION_MODE:async}
     topic: ${APP_INGESTION_TOPIC:document-ingestion-requests}

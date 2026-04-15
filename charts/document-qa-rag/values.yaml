@@ -21,11 +21,23 @@ ingress:
   tls: []
 
 app:
+  authMode: oidc
+  authTenantClaim: tenant_id
+  authRolesClaim: roles
   jwtIssuer: document-qa-rag
   jwtSecret: change-me-change-me-change-me-change-me
+  oidcIssuerUri: ""
+  oidcJwkSetUri: ""
   datasourceUrl: jdbc:postgresql://document-qa-rag-postgresql:5432/ragdb
   datasourceUsername: rag
   datasourcePassword: rag
+  storageProvider: database
+  storageS3Bucket: ""
+  storageS3Region: us-east-1
+  storageS3Endpoint: ""
+  storageS3AccessKey: ""
+  storageS3SecretKey: ""
+  storageS3PathStyleAccess: false
   ingestionMode: kafka
   kafkaBootstrapServers: document-qa-rag-kafka:9092
   vectorStore: pgvector
