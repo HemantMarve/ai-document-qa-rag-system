@@ -6,7 +6,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.UUID;
@@ -21,8 +20,8 @@ public class DocumentChunkEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private DocumentEntity document;
     @Column(nullable = false) private int chunkIndex;
-    @Lob @Column(nullable = false) private String text;
-    @Lob @Column(nullable = false) private String embedding;
+    @Column(nullable = false, columnDefinition = "text") private String text;
+    @Column(nullable = false, columnDefinition = "text") private String embedding;
 
     public UUID getId() { return id; }
     public String getTenantId() { return tenantId; }

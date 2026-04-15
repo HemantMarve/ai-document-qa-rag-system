@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
+    private Auth auth = new Auth();
     private Jwt jwt = new Jwt();
     private Ingestion ingestion = new Ingestion();
     private VectorStore vectorStore = new VectorStore();
@@ -17,6 +18,8 @@ public class AppProperties {
     private Rag rag = new Rag();
     private List<DemoUser> demoUsers = new ArrayList<>();
 
+    public Auth getAuth() { return auth; }
+    public void setAuth(Auth auth) { this.auth = auth; }
     public Jwt getJwt() { return jwt; }
     public void setJwt(Jwt jwt) { this.jwt = jwt; }
     public Ingestion getIngestion() { return ingestion; }
@@ -29,6 +32,19 @@ public class AppProperties {
     public void setRag(Rag rag) { this.rag = rag; }
     public List<DemoUser> getDemoUsers() { return demoUsers; }
     public void setDemoUsers(List<DemoUser> demoUsers) { this.demoUsers = demoUsers; }
+
+    public static class Auth {
+        @NotBlank private String mode = "demo";
+        @NotBlank private String tenantClaim = "tenant_id";
+        @NotBlank private String rolesClaim = "roles";
+        public String getMode() { return mode; }
+        public void setMode(String mode) { this.mode = mode; }
+        public String getTenantClaim() { return tenantClaim; }
+        public void setTenantClaim(String tenantClaim) { this.tenantClaim = tenantClaim; }
+        public String getRolesClaim() { return rolesClaim; }
+        public void setRolesClaim(String rolesClaim) { this.rolesClaim = rolesClaim; }
+        public boolean demoMode() { return "demo".equalsIgnoreCase(mode); }
+    }
 
     public static class Jwt {
         @NotBlank private String issuer;

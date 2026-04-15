@@ -15,6 +15,9 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:h2:file:./data/ragdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH}
     username: ${SPRING_DATASOURCE_USERNAME:sa}
     password: ${SPRING_DATASOURCE_PASSWORD:}
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
   h2:
     console:
       enabled: true
@@ -38,6 +41,10 @@ management:
       probes:
         enabled: true
 app:
+  auth:
+    mode: ${APP_AUTH_MODE:demo}
+    tenant-claim: ${APP_AUTH_TENANT_CLAIM:tenant_id}
+    roles-claim: ${APP_AUTH_ROLES_CLAIM:roles}
   jwt:
     issuer: ${APP_JWT_ISSUER:document-qa-rag}
     secret: ${APP_JWT_SECRET:change-me-change-me-change-me-change-me}

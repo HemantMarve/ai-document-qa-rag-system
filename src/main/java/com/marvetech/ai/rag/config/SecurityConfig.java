@@ -1,6 +1,7 @@
 package com.marvetech.ai.rag.config;
 
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,16 +33,17 @@ public class SecurityConfig {
     }
 
     @Bean
-    JwtDecoder jwtDecoder(AppProperties properties) {
+    @ConditionalOnProperty(name = "app.auth.mode", havingValue = "demo", matchIfMissing = true)
+    JwtDecoder demoJwtDecoder(AppProperties properties) {
         var key = new SecretKeySpec(properties.getJwt().getSecret().getBytes(), "HmacSHA256");
         return NimbusJwtDecoder.withSecretKey(key).macAlgorithm(MacAlgorithm.HS256).build();
     }
 
     @Bean
-    JwtAuthenticationConverter jwtAuthenticationConverter() {
+    JwtAuthenticationConverter jwtAuthenticationConverter(AppProperties properties) {
         var authorities = new JwtGrantedAuthoritiesConverter();
         authorities.setAuthorityPrefix("ROLE_");
-        authorities.setAuthoritiesClaimName("roles");
+        authorities.setAuthoritiesClaimName(properties.getAuth().getRolesClaim());
         var converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(authorities);
         return converter;

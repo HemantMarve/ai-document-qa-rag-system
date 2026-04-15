@@ -1,6 +1,7 @@
 package com.marvetech.ai.rag.auth;
 
 import jakarta.validation.Valid;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
+@ConditionalOnProperty(name = "app.auth.mode", havingValue = "demo", matchIfMissing = true)
 public class AuthController {
     private final AuthService authService;
 
