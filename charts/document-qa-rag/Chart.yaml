@@ -1,0 +1,6 @@
+apiVersion: v2
+name: document-qa-rag
+version: 0.1.0
+appVersion: "0.1.0"
+description: Helm chart for the MarveTech AI Document Q&A RAG System.
+type: application

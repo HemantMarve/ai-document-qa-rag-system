@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: document-qa-rag-system
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${SPRING_KAFKA_CONSUMER_GROUP_ID:document-qa-rag-ingestion}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:file:./data/ragdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 25MB
+server:
+  port: ${SERVER_PORT:8080}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+app:
+  jwt:
+    issuer: ${APP_JWT_ISSUER:document-qa-rag}
+    secret: ${APP_JWT_SECRET:change-me-change-me-change-me-change-me}
+    ttl-minutes: ${APP_JWT_TTL_MINUTES:120}
+  demo-users:
+    - username: admin
+      password: admin123
+      roles: [ADMIN, USER]
+    - username: user
+      password: user123
+      roles: [USER]
+  ingestion:
+    mode: ${APP_INGESTION_MODE:async}
+    topic: ${APP_INGESTION_TOPIC:document-ingestion-requests}
+  vector-store:
+    provider: ${APP_VECTOR_STORE:local}
+    pgvector:
+      enabled: ${APP_PGVECTOR_ENABLED:false}
+  embeddings:
+    provider: ${APP_EMBEDDING_PROVIDER:local}
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+  rag:
+    chunk-size: ${APP_RAG_CHUNK_SIZE:900}
+    chunk-overlap: ${APP_RAG_CHUNK_OVERLAP:120}
+    embedding-dimensions: ${APP_RAG_EMBEDDING_DIMENSIONS:256}

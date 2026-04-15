@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "document-qa-rag.fullname" . }}-config
+data:
+  SPRING_PROFILES_ACTIVE: postgres
+  APP_JWT_ISSUER: {{ .Values.app.jwtIssuer | quote }}
+  SPRING_DATASOURCE_URL: {{ .Values.app.datasourceUrl | quote }}
+  SPRING_DATASOURCE_USERNAME: {{ .Values.app.datasourceUsername | quote }}
+  APP_INGESTION_MODE: {{ .Values.app.ingestionMode | quote }}
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: {{ .Values.app.kafkaBootstrapServers | quote }}
+  APP_VECTOR_STORE: {{ .Values.app.vectorStore | quote }}
+  APP_EMBEDDING_PROVIDER: {{ .Values.app.embeddingProvider | quote }}
+  OPENAI_BASE_URL: {{ .Values.app.openAiBaseUrl | quote }}
+  OPENAI_EMBEDDING_MODEL: {{ .Values.app.openAiEmbeddingModel | quote }}

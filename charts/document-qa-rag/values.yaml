@@ -1,0 +1,56 @@
+replicaCount: 2
+
+image:
+  repository: marvetech/document-qa-rag-system
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: false
+  className: ""
+  hosts:
+    - host: document-qa-rag.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+app:
+  jwtIssuer: document-qa-rag
+  jwtSecret: change-me-change-me-change-me-change-me
+  datasourceUrl: jdbc:postgresql://document-qa-rag-postgresql:5432/ragdb
+  datasourceUsername: rag
+  datasourcePassword: rag
+  ingestionMode: kafka
+  kafkaBootstrapServers: document-qa-rag-kafka:9092
+  vectorStore: pgvector
+  embeddingProvider: local
+  openAiApiKey: ""
+  openAiBaseUrl: https://api.openai.com
+  openAiEmbeddingModel: text-embedding-3-small
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+postgresql:
+  enabled: true
+  image: pgvector/pgvector:pg16
+  storage: 5Gi
+
+redis:
+  enabled: true
+  image: redis:7-alpine
+
+kafka:
+  enabled: true
+  image: bitnami/kafka:3.7
