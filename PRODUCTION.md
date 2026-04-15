@@ -92,10 +92,26 @@ OPENAI_CHAT_MAX_TOKENS=500
 
 The prompt instructs the model to answer only from retrieved context and to say when uploaded documents do not contain enough information.
 
+## Helm Hardening
+
+The chart includes production-oriented controls:
+
+- Dedicated ServiceAccount.
+- Pod and container security contexts.
+- HorizontalPodAutoscaler.
+- PodDisruptionBudget.
+- Optional NetworkPolicy.
+
+Enable NetworkPolicy only after confirming your ingress controller labels:
+
+```bash
+helm upgrade --install document-qa-rag ./charts/document-qa-rag \
+  --set networkPolicy.enabled=true
+```
+
 ## Next Ordered Items
 
 After this baseline, the next production-hardening steps are:
 
-1. Harden Helm with service account, security context, HPA, PDB, and network policies.
-2. Add Docker image build/publish workflow.
-3. Add Terraform or cloud-specific infrastructure automation.
+1. Add Docker image build/publish workflow.
+2. Add Terraform or cloud-specific infrastructure automation.
