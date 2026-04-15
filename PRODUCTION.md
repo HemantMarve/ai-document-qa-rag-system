@@ -109,9 +109,22 @@ helm upgrade --install document-qa-rag ./charts/document-qa-rag \
   --set networkPolicy.enabled=true
 ```
 
+## Container Publishing
+
+The `Build and Publish Image` workflow publishes images to GitHub Container Registry when changes land on `main` or a version tag is pushed.
+
+Image name:
+
+```text
+ghcr.io/hemantmarve/document-qa-rag-system
+```
+
+Typical deployment tags:
+
+- `sha-<git-sha>` for immutable deploys.
+- `main` for the latest main branch build.
+- `vX.Y.Z` for release tags.
+
 ## Next Ordered Items
 
-After this baseline, the next production-hardening steps are:
-
-1. Add Docker image build/publish workflow.
-2. Add Terraform or cloud-specific infrastructure automation.
+After this baseline, the next production-hardening step is Terraform or cloud-specific infrastructure automation.
