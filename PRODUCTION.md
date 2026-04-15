@@ -125,6 +125,27 @@ Typical deployment tags:
 - `main` for the latest main branch build.
 - `vX.Y.Z` for release tags.
 
-## Next Ordered Items
+## Terraform AWS Starter
 
-After this baseline, the next production-hardening step is Terraform or cloud-specific infrastructure automation.
+A starter Terraform module lives in `infra/terraform/aws`. It provisions:
+
+- S3 bucket for original documents.
+- PostgreSQL RDS instance.
+- Helm release into an existing Kubernetes cluster.
+
+It intentionally expects Kafka and Kubernetes to already exist, because teams often choose managed Kafka and an existing EKS/GKE/AKS platform.
+
+Run from `infra/terraform/aws`:
+
+```bash
+terraform init
+terraform plan \
+  -var='image_tag=sha-your-image-sha' \
+  -var='document_bucket_name=your-unique-bucket' \
+  -var='vpc_id=vpc-...' \
+  -var='database_subnet_ids=["subnet-...","subnet-..."]' \
+  -var='database_allowed_cidrs=["10.0.0.0/16"]' \
+  -var='db_password=replace-with-strong-password' \
+  -var='oidc_issuer_uri=https://issuer.example.com/' \
+  -var='kafka_bootstrap_servers=broker.example.com:9092'
+```
