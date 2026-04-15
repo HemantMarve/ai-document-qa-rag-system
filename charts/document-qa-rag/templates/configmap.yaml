@@ -21,5 +21,8 @@ data:
   SPRING_KAFKA_BOOTSTRAP_SERVERS: {{ .Values.app.kafkaBootstrapServers | quote }}
   APP_VECTOR_STORE: {{ .Values.app.vectorStore | quote }}
   APP_EMBEDDING_PROVIDER: {{ .Values.app.embeddingProvider | quote }}
+  APP_GENERATION_PROVIDER: {{ .Values.app.generationProvider | quote }}
   OPENAI_BASE_URL: {{ .Values.app.openAiBaseUrl | quote }}
   OPENAI_EMBEDDING_MODEL: {{ .Values.app.openAiEmbeddingModel | quote }}
+  OPENAI_CHAT_MODEL: {{ .Values.app.openAiChatModel | quote }}
+  OPENAI_CHAT_MAX_TOKENS: {{ .Values.app.openAiChatMaxTokens | quote }}

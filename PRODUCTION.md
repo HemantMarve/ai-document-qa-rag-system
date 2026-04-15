@@ -77,11 +77,25 @@ APP_STORAGE_S3_PATH_STYLE_ACCESS=true
 
 The database stores the S3 object key and file size alongside document metadata.
 
+## LLM Answer Generation
+
+Local mode uses extractive answers directly from retrieved chunks.
+
+Production can enable OpenAI chat completions for synthesized answers over retrieved context:
+
+```bash
+APP_GENERATION_PROVIDER=openai
+OPENAI_API_KEY=...
+OPENAI_CHAT_MODEL=gpt-4o-mini
+OPENAI_CHAT_MAX_TOKENS=500
+```
+
+The prompt instructs the model to answer only from retrieved context and to say when uploaded documents do not contain enough information.
+
 ## Next Ordered Items
 
 After this baseline, the next production-hardening steps are:
 
-1. Add LLM answer generation over retrieved context.
-2. Harden Helm with service account, security context, HPA, PDB, and network policies.
-3. Add Docker image build/publish workflow.
-4. Add Terraform or cloud-specific infrastructure automation.
+1. Harden Helm with service account, security context, HPA, PDB, and network policies.
+2. Add Docker image build/publish workflow.
+3. Add Terraform or cloud-specific infrastructure automation.

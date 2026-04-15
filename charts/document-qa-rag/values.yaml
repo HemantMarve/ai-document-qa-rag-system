@@ -42,9 +42,12 @@ app:
   kafkaBootstrapServers: document-qa-rag-kafka:9092
   vectorStore: pgvector
   embeddingProvider: local
+  generationProvider: local
   openAiApiKey: ""
   openAiBaseUrl: https://api.openai.com
   openAiEmbeddingModel: text-embedding-3-small
+  openAiChatModel: gpt-4o-mini
+  openAiChatMaxTokens: 500
 
 resources:
   requests:

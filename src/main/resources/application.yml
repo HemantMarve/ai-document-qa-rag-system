@@ -78,6 +78,13 @@ app:
       api-key: ${OPENAI_API_KEY:}
       base-url: ${OPENAI_BASE_URL:https://api.openai.com}
       model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+  generation:
+    provider: ${APP_GENERATION_PROVIDER:local}
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
+      max-tokens: ${OPENAI_CHAT_MAX_TOKENS:500}
   rag:
     chunk-size: ${APP_RAG_CHUNK_SIZE:900}
     chunk-overlap: ${APP_RAG_CHUNK_OVERLAP:120}

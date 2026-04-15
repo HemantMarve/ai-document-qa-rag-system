@@ -16,6 +16,7 @@ public class AppProperties {
     private Ingestion ingestion = new Ingestion();
     private VectorStore vectorStore = new VectorStore();
     private Embeddings embeddings = new Embeddings();
+    private Generation generation = new Generation();
     private Rag rag = new Rag();
     private List<DemoUser> demoUsers = new ArrayList<>();
 
@@ -31,6 +32,8 @@ public class AppProperties {
     public void setVectorStore(VectorStore vectorStore) { this.vectorStore = vectorStore; }
     public Embeddings getEmbeddings() { return embeddings; }
     public void setEmbeddings(Embeddings embeddings) { this.embeddings = embeddings; }
+    public Generation getGeneration() { return generation; }
+    public void setGeneration(Generation generation) { this.generation = generation; }
     public Rag getRag() { return rag; }
     public void setRag(Rag rag) { this.rag = rag; }
     public List<DemoUser> getDemoUsers() { return demoUsers; }
@@ -128,6 +131,16 @@ public class AppProperties {
         public boolean openAiEnabled() { return "openai".equalsIgnoreCase(provider); }
     }
 
+    public static class Generation {
+        @NotBlank private String provider = "local";
+        private OpenAiGeneration openai = new OpenAiGeneration();
+        public String getProvider() { return provider; }
+        public void setProvider(String provider) { this.provider = provider; }
+        public OpenAiGeneration getOpenai() { return openai; }
+        public void setOpenai(OpenAiGeneration openai) { this.openai = openai; }
+        public boolean openAiEnabled() { return "openai".equalsIgnoreCase(provider); }
+    }
+
     public static class OpenAi {
         private String apiKey = "";
         private String baseUrl = "https://api.openai.com";
@@ -138,6 +151,21 @@ public class AppProperties {
         public void setBaseUrl(String baseUrl) { this.baseUrl = baseUrl; }
         public String getModel() { return model; }
         public void setModel(String model) { this.model = model; }
+    }
+
+    public static class OpenAiGeneration {
+        private String apiKey = "";
+        private String baseUrl = "https://api.openai.com";
+        private String model = "gpt-4o-mini";
+        @Min(64) private int maxTokens = 500;
+        public String getApiKey() { return apiKey; }
+        public void setApiKey(String apiKey) { this.apiKey = apiKey; }
+        public String getBaseUrl() { return baseUrl; }
+        public void setBaseUrl(String baseUrl) { this.baseUrl = baseUrl; }
+        public String getModel() { return model; }
+        public void setModel(String model) { this.model = model; }
+        public int getMaxTokens() { return maxTokens; }
+        public void setMaxTokens(int maxTokens) { this.maxTokens = maxTokens; }
     }
 
     public static class Rag {
